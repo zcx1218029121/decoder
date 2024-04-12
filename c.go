@@ -34,3 +34,13 @@ func NewConn(conn net.Conn, decoder Decoder, encoder Encoder) Conn {
 func (c *ConnImpl) Flush() error {
 	return c.wr.Flush()
 }
+func NewConnWithRw(conn net.Conn, decoder Decoder, encoder Encoder, rd *bufio.Reader, wr *bufio.Writer) Conn {
+	c := &ConnImpl{
+		Conn: conn,
+		rd:   rd,
+		wr:   wr,
+	}
+	c.SetDecoder(decoder)
+	c.SetEncoder(encoder)
+	return c
+}
